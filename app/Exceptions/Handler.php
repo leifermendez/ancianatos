@@ -55,6 +55,7 @@ class Handler extends ExceptionHandler
                 'errors' => [
                     'status' => 401,
                     'message' => trans('general.unauthenticated'),
+                    'trace' => $exception->getMessage()
                 ]
             ], 401
         );

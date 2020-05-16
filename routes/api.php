@@ -26,7 +26,7 @@ Route::group(['prefix' => '1.0'], function () {
      */
     Route::group(['prefix' => 'auth'], function () {
         Route::post('register', 'Auth\LoginController@signup')
-            ->middleware(['user.check']);
+            ->middleware(['user.admin']);
 
         Route::delete('logout', 'Auth\LoginController@logout')
             ->middleware(['auth:api']);
@@ -37,19 +37,54 @@ Route::group(['prefix' => '1.0'], function () {
     /**
      * Instituciones
      */
+
     Route::middleware('auth:api')->group(function () {
         Route::resource('institutions', 'Institutions\CrudController', [
+            'only' => ['index', 'show']
+        ]);
+
+        Route::resource('users', 'Users\CrudController', [
+            'only' => ['index', 'show']
+        ]);
+
+        Route::resource('staff', 'Staff\CrudController', [
+            'only' => ['index', 'show']
+        ]);
+
+        Route::resource('patients', 'Patients\CrudController', [
             'only' => ['index', 'show']
         ]);
     });
 
     /**
-     * Rutas con nivel admin dios
+     * Rutas con nivel admin manager y admin
      */
-    Route::middleware(['auth:api', 'user.check'])->group(function () {
+
+    Route::middleware(['auth:api', 'user.manager'])->group(function () {
         Route::resource('institutions', 'Institutions\CrudController',
             [
-                'only' => ['store', 'update','destroy']
+                'only' => ['store', 'update', 'destroy']
+            ]);
+
+        Route::resource('staff', 'Staff\CrudController',
+            [
+                'only' => ['store', 'update', 'destroy']
+            ]);
+
+        Route::resource('patients', 'Patients\CrudController',
+            [
+                'only' => ['store', 'update', 'destroy']
+            ]);
+    });
+
+    /**
+     * Rutas con nivel solo admin
+     */
+
+    Route::middleware(['auth:api', 'user.admin'])->group(function () {
+        Route::resource('users', 'Users\CrudController',
+            [
+                'only' => ['store', 'update', 'destroy']
             ]);
     });
 

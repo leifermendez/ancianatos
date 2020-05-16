@@ -21,25 +21,30 @@ class UserSeeder extends Seeder
                 'email' => 'admin@admin.com',
                 'avatar' => $this->faker->imageUrl(),
                 'level' => 'admin',
-                'password' => bcrypt('12345678')
+                'password' => bcrypt('12345678'),
+                'user_id' => 1
             ],
             [
                 'name' => $this->faker->name,
                 'email' => $this->faker->email,
                 'avatar' => $this->faker->imageUrl(),
-                'password' => bcrypt('12345678')
+                'password' => bcrypt('12345678'),
+                'level' => 'manager',
+                'user_id' => 1
             ],
             [
                 'name' => $this->faker->name,
                 'email' => $this->faker->email,
                 'avatar' => $this->faker->imageUrl(),
-                'password' => bcrypt('12345678')
+                'password' => bcrypt('12345678'),
+                'user_id' => 1
             ],
             [
                 'name' => $this->faker->name,
                 'email' => $this->faker->email,
                 'avatar' => $this->faker->imageUrl(),
-                'password' => bcrypt('12345678')
+                'password' => bcrypt('12345678'),
+                'user_id' => 1
             ]
         );
 

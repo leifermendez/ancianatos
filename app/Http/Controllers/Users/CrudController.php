@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Institutions;
+namespace App\Http\Controllers\Users;
 
-use App\Exports\InstitutionsExport;
+use App\Exports\UserExport;
 use App\Http\Controllers\Controller;
-use App\Institutions;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -33,7 +32,7 @@ class CrudController extends Controller
                 ];
             }
             $name = $name . '.' . $format['extension'];
-            Excel::store(new InstitutionsExport, $name, 'public');
+            Excel::store(new UserExport, $name, 'public');
             return Storage::disk('public')->url($name);
         } catch (Exception $e) {
             return $e->getMessage();
@@ -54,7 +53,7 @@ class CrudController extends Controller
                 $this->export(Str::random(5), $request->input('export')) : null;
             $limit = ($request->limit) ? $request->limit : env('PAGINATE');
             $filters = ($request->filters) ? explode("?", $request->filters) : [];
-            $data = Institutions::where(function ($query) use ($filters) {
+            $data = User::where(function ($query) use ($filters) {
                 foreach ($filters as $value) {
                     $tmp = explode(",", $value);
                     if (isset($tmp[0]) && isset($tmp[1]) && isset($tmp[2])) {
@@ -69,9 +68,7 @@ class CrudController extends Controller
 
                     }
                 }
-            })
-                ->with(['user'])
-                ->paginate($limit);
+            })->paginate($limit);
 
             if ($export) {
                 return json_response(array('file' => $export), 200);
@@ -106,10 +103,14 @@ class CrudController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'address' => 'required|string'
+                'level' => 'required|string|in:user',
+                'email' => 'required|string|email|unique:users',
+                'password' => 'required|string|confirmed'
             ], [
                 'name.required' => 'Please enter name',
-                'address.required' => 'Please enter address'
+                'level.required' => 'Please enter level',
+                'email.required' => 'Please enter email',
+                'password.required' => 'Please enter password',
             ]);
 
             if ($validator->fails()) {
@@ -125,8 +126,16 @@ class CrudController extends Controller
             if ($extra && $extra !== 'null') {
                 $values['extra'] = $extra;
             }
-            $institution = new Institutions($values);
-            $institution->save();
+            $user = new User([
+                'name' => $request->name,
+                'email' => $request->email,
+                'level' => $request->level,
+                'password' => bcrypt($request->password),
+            ]);
+            $user->save();
+            return response()->json([
+                'data' => $user,
+            ], 201);
 
             return response()->json([
                 'data' => wrapper_extra($institution),
@@ -146,7 +155,7 @@ class CrudController extends Controller
     {
         try {
 
-            $data = Institutions::find($id);
+            $data = User::find($id);
             return json_response(wrapper_extra($data), 200);
 
         } catch (Exception $e) {
@@ -166,10 +175,10 @@ class CrudController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'address' => 'required|string'
+                'level' => 'required|string|in:user',
             ], [
                 'name.required' => 'Please enter name',
-                'address.required' => 'Please enter address'
+                'level.required' => 'Please enter level',
             ]);
 
             if ($validator->fails()) {
@@ -182,9 +191,9 @@ class CrudController extends Controller
                 $values['extra'] = $extra;
             }
 
-            Institutions::where('id', $id)
+            User::where('id', $id)
                 ->update($values);
-            $institution = Institutions::find($id);
+            $institution = User::find($id);
 
             return response()->json([
                 'data' => wrapper_extra($institution),
@@ -203,10 +212,10 @@ class CrudController extends Controller
     public function destroy($id)
     {
         try {
-            if (!Institutions::find($id)) {
+            if (!User::find($id)) {
                 return json_response(trans('general.not.found'), 404);
             }
-            $institution = Institutions::find($id);
+            $institution = User::find($id);
             $institution->delete();
             return response()->json([
                 'data' => $institution,

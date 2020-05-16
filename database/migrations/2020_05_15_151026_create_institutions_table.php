@@ -20,7 +20,7 @@ class CreateInstitutionsTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('description')->nullable();
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned();
             $table->longText('extra')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -18,12 +18,14 @@ class CreatePatientsTable extends Migration
             $table->string('name');
             $table->string('last_name');
             $table->string('phone');
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->string('address');
             $table->string('description')->nullable();
+            $table->integer('user_id')->unsigned();
             $table->string('email');
             $table->longText('extra')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

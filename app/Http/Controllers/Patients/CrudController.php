@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Institutions;
+namespace App\Http\Controllers\Patients;
 
-use App\Exports\InstitutionsExport;
+use App\Exports\PatientsExport;
 use App\Http\Controllers\Controller;
-use App\Institutions;
-use App\User;
+use App\Patients;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +32,7 @@ class CrudController extends Controller
                 ];
             }
             $name = $name . '.' . $format['extension'];
-            Excel::store(new InstitutionsExport, $name, 'public');
+            Excel::store(new PatientsExport, $name, 'public');
             return Storage::disk('public')->url($name);
         } catch (Exception $e) {
             return $e->getMessage();
@@ -54,7 +53,7 @@ class CrudController extends Controller
                 $this->export(Str::random(5), $request->input('export')) : null;
             $limit = ($request->limit) ? $request->limit : env('PAGINATE');
             $filters = ($request->filters) ? explode("?", $request->filters) : [];
-            $data = Institutions::where(function ($query) use ($filters) {
+            $data = Patients::where(function ($query) use ($filters) {
                 foreach ($filters as $value) {
                     $tmp = explode(",", $value);
                     if (isset($tmp[0]) && isset($tmp[1]) && isset($tmp[2])) {
@@ -106,10 +105,16 @@ class CrudController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'address' => 'required|string'
+                'last_name' => 'required|string',
+                'phone' => 'required|string',
+                'address' => 'required|string',
+                'email' => 'required|string|email'
             ], [
                 'name.required' => 'Please enter name',
-                'address.required' => 'Please enter address'
+                'last_name.required' => 'Please enter last_name',
+                'phone.required' => 'Please enter phone',
+                'address.required' => 'Please enter address',
+                'email.required' => 'Please enter email'
             ]);
 
             if ($validator->fails()) {
@@ -125,7 +130,7 @@ class CrudController extends Controller
             if ($extra && $extra !== 'null') {
                 $values['extra'] = $extra;
             }
-            $institution = new Institutions($values);
+            $institution = new Patients($values);
             $institution->save();
 
             return response()->json([
@@ -146,7 +151,7 @@ class CrudController extends Controller
     {
         try {
 
-            $data = Institutions::find($id);
+            $data = Patients::find($id);
             return json_response(wrapper_extra($data), 200);
 
         } catch (Exception $e) {
@@ -182,9 +187,9 @@ class CrudController extends Controller
                 $values['extra'] = $extra;
             }
 
-            Institutions::where('id', $id)
+            Patients::where('id', $id)
                 ->update($values);
-            $institution = Institutions::find($id);
+            $institution = Patients::find($id);
 
             return response()->json([
                 'data' => wrapper_extra($institution),
@@ -203,10 +208,10 @@ class CrudController extends Controller
     public function destroy($id)
     {
         try {
-            if (!Institutions::find($id)) {
+            if (!Patients::find($id)) {
                 return json_response(trans('general.not.found'), 404);
             }
-            $institution = Institutions::find($id);
+            $institution = Patients::find($id);
             $institution->delete();
             return response()->json([
                 'data' => $institution,
