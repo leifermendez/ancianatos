@@ -119,7 +119,9 @@ class CrudController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'address' => 'required|string'
+                'address' => 'required|string',
+                'description' => '',
+                'extra' => '',
             ], [
                 'name.required' => 'Please enter name',
                 'address.required' => 'Please enter address'
@@ -137,6 +139,9 @@ class CrudController extends Controller
                 ]);
             if ($extra && $extra !== 'null') {
                 $values['extra'] = $extra;
+            }
+            if ($request->input('images')) {
+                $values['images'] = parse_images($request->input('images'));
             }
             $institution = new Institutions($values);
             $institution->save();
@@ -158,7 +163,7 @@ class CrudController extends Controller
     public function show(Request $request, $id, Reports $pdf)
     {
         try {
-            $data = Institutions::find($id);
+            $data = Institutions::where('id',$id)->gallery();
             if ($request->export) {
                 $name = 'single_' . Str::random(25) . '.pdf';
                 $link = $pdf->reportSingle($data, $name);
@@ -186,7 +191,9 @@ class CrudController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'address' => 'required|string'
+                'address' => 'required|string',
+                'description' => '',
+                'extra' => '',
             ], [
                 'name.required' => 'Please enter name',
                 'address.required' => 'Please enter address'
@@ -201,7 +208,9 @@ class CrudController extends Controller
             if ($extra && $extra !== 'null') {
                 $values['extra'] = $extra;
             }
-
+            if ($request->input('images')) {
+                $values['images'] = parse_images($request->input('images'));
+            }
             Institutions::where('id', $id)
                 ->update($values);
             $institution = Institutions::find($id);

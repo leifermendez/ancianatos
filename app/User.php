@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'user_id', 'level'
+        'name', 'email', 'password', 'user_id', 'level', 'images'
     ];
 
     /**
@@ -38,4 +38,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function scopeGallery($query)
+    {
+        try {
+            $data = $query->first();
+            $raw = explode(',', $data->images);
+            $images = Media::whereIn('id', $raw)->get();
+            $data->images = $images;
+            return $data;
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return $query->first();
+        }
+    }
 }

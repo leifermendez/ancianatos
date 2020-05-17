@@ -20,7 +20,8 @@ class CreatePatientsTable extends Migration
             $table->string('phone');
             $table->string('photo')->nullable();
             $table->string('address');
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
+            $table->longText('images')->nullable();
             $table->integer('user_id')->unsigned();
             $table->string('email');
             $table->longText('extra')->nullable();

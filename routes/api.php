@@ -39,6 +39,8 @@ Route::group(['prefix' => '1.0'], function () {
      */
 
     Route::middleware('auth:api')->group(function () {
+        Route::resource('media', 'Media\CrudController');
+
         Route::resource('institutions', 'Institutions\CrudController', [
             'only' => ['index', 'show']
         ]);

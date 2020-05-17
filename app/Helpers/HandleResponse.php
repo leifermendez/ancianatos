@@ -45,6 +45,27 @@ if (!function_exists("parse_extra")) {
     }
 }
 
+if (!function_exists("parse_images")) {
+    /**
+     * @param string | array $data Optional data
+     * @param string $type
+     * @return string
+     */
+    function parse_images($data = [])
+    {
+        try {
+            $raw = [];
+
+            foreach ($data as $datum) {
+                $raw[] = $datum['id'];
+            }
+            return implode(',', $raw);
+        } catch (Exception $e) {
+            return '';
+        }
+    }
+}
+
 if (!function_exists("wrapper_extra")) {
     /**
      * @param string | array $data Optional data
@@ -63,6 +84,7 @@ if (!function_exists("wrapper_extra")) {
         }
     }
 }
+
 
 
 

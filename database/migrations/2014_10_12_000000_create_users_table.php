@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable();
             $table->string('password');
             $table->integer('user_id')->nullable();
+            $table->longText('images')->nullable();
             $table->longText('extra')->nullable();
             $table->rememberToken();
             $table->timestamps();
