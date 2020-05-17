@@ -1,0 +1,13 @@
+<div>
+    <div>
+        <b>{{$name}}</b>
+    </div>
+    <div>
+        <b>Direccion:</b>
+        <p>{{$address}}</p>
+    </div>
+    <div>
+        <b>Descripcion:</b>
+        <p>{{$description}}</p>
+    </div>
+</div>

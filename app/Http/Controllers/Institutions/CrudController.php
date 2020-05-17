@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\Institutions;
 
 use App\Exports\InstitutionsExport;
+use App\Exports\SingleInstitutionsExport;
 use App\Http\Controllers\Controller;
 use App\Institutions;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
+use leifermendez\Reports\Reports;
 
 class CrudController extends Controller
 {
@@ -70,7 +73,17 @@ class CrudController extends Controller
                     }
                 }
             })
+                ->where(function ($query) use ($request) {
+                    if ($request->src) {
+                        $query->where('name', 'LIKE', '%' . $request->src . '%')
+                            ->orWhere('address', 'LIKE', '%' . $request->src . '%')
+                            ->orWhere('description', 'LIKE', '%' . $request->src . '%')
+                            ->orWhere('extra', 'LIKE', '%' . $request->src . '%');
+                    }
+
+                })
                 ->with(['user'])
+                ->orderBy('id', 'DESC')
                 ->paginate($limit);
 
             if ($export) {
@@ -142,11 +155,18 @@ class CrudController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(Request $request, $id, Reports $pdf)
     {
         try {
-
             $data = Institutions::find($id);
+            if ($request->export) {
+                $name = 'single_' . Str::random(25) . '.pdf';
+                $link = $pdf->reportSingle($data, $name);
+                return json_response([
+                    'url' => $link
+                ], 200);
+            }
+
             return json_response(wrapper_extra($data), 200);
 
         } catch (Exception $e) {
