@@ -10,11 +10,25 @@ class Staff extends Model
     use SoftDeletes;
     protected $fillable = [
         'name', 'last_name', 'phone', 'photo', 'address', 'description',
-        'email', 'user_id', 'extra'
+        'email', 'user_id', 'extra', 'images'
     ];
 
     public function user()
     {
-        return $this->hasMany('App\User', 'id', 'user_id');
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
+
+    public function scopeGallery($query)
+    {
+        try {
+            $data = $query->first();
+            $raw = explode(',', $data->images);
+            $images = Media::whereIn('id', $raw)->get();
+            $data->images = $images;
+            return $data;
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return $query->first();
+        }
     }
 }

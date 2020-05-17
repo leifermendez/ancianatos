@@ -55,11 +55,14 @@ if (!function_exists("parse_images")) {
     {
         try {
             $raw = [];
-
-            foreach ($data as $datum) {
-                $raw[] = $datum['id'];
+            if(count($data)){
+                foreach ($data as $datum) {
+                    $raw[] = $datum['id'];
+                }
+                return implode(',', $raw);
+            }else{
+                return '';
             }
-            return implode(',', $raw);
         } catch (Exception $e) {
             return '';
         }

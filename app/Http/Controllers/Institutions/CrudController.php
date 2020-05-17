@@ -93,7 +93,7 @@ class CrudController extends Controller
             return json_response($data, 200);
 
         } catch (Exception $e) {
-            return json_response($e->getMessage(), 402);
+            return json_response($e->getMessage(), 403);
         }
     }
 
@@ -150,7 +150,7 @@ class CrudController extends Controller
                 'data' => wrapper_extra($institution),
             ], 201);
         } catch (Exception $e) {
-            return json_response($e->getMessage(), 402);
+            return json_response($e->getMessage(), 403);
         }
     }
 
@@ -175,7 +175,7 @@ class CrudController extends Controller
             return json_response(wrapper_extra($data), 200);
 
         } catch (Exception $e) {
-            return json_response($e->getMessage(), 402);
+            return json_response($e->getMessage(), 403);
         }
     }
 
@@ -219,7 +219,7 @@ class CrudController extends Controller
                 'data' => wrapper_extra($institution),
             ], 201);
         } catch (Exception $e) {
-            return json_response($e->getMessage(), 402);
+            return json_response($e->getMessage(), 403);
         }
     }
 
@@ -241,7 +241,7 @@ class CrudController extends Controller
                 'data' => $institution,
             ], 202);
         } catch (Exception $e) {
-            return json_response($e->getMessage(), 402);
+            return json_response($e->getMessage(), 403);
         }
     }
 }

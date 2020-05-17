@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Staff;
 use App\Exports\StaffExport;
 use App\Http\Controllers\Controller;
 use App\Staff;
+use App\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use leifermendez\Reports\Reports;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CrudController extends Controller
@@ -69,7 +71,17 @@ class CrudController extends Controller
                     }
                 }
             })
+                ->where(function ($query) use ($request) {
+                    if ($request->src) {
+                        $query->where('name', 'LIKE', '%' . $request->src . '%')
+                            ->orWhere('last_name', 'LIKE', '%' . $request->src . '%')
+                            ->orWhere('description', 'LIKE', '%' . $request->src . '%')
+                            ->orWhere('extra', 'LIKE', '%' . $request->src . '%');
+                    }
+
+                })
                 ->with(['user'])
+                ->orderBy('id', 'DESC')
                 ->paginate($limit);
 
             if ($export) {
@@ -79,7 +91,7 @@ class CrudController extends Controller
             return json_response($data, 200);
 
         } catch (Exception $e) {
-            return json_response($e->getMessage(), 402);
+            return json_response($e->getMessage(), 403);
         }
     }
 
@@ -108,7 +120,8 @@ class CrudController extends Controller
                 'last_name' => 'required|string',
                 'phone' => 'required|string',
                 'address' => 'required|string',
-                'email' => 'required|string|email'
+                'email' => 'required|string|email',
+                'description' => ''
             ], [
                 'name.required' => 'Please enter name',
                 'last_name.required' => 'Please enter last_name',
@@ -130,6 +143,10 @@ class CrudController extends Controller
             if ($extra && $extra !== 'null') {
                 $values['extra'] = $extra;
             }
+            if ($request->input('images')) {
+                $values['images'] = parse_images($request->input('images'));
+            }
+
             $institution = new Staff($values);
             $institution->save();
 
@@ -137,7 +154,8 @@ class CrudController extends Controller
                 'data' => wrapper_extra($institution),
             ], 201);
         } catch (Exception $e) {
-            return json_response($e->getMessage(), 402);
+
+            return json_response($e->getTrace(), 403);
         }
     }
 
@@ -147,15 +165,21 @@ class CrudController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(Request $request, $id, Reports $pdf)
     {
         try {
-
-            $data = Staff::find($id);
+            $data = Staff::where('id', $id)->gallery();
+            if ($request->export) {
+                $name = 'single_' . Str::random(25) . '.pdf';
+                $link = $pdf->reportSingle($data, $name);
+                return json_response([
+                    'url' => $link
+                ], 200);
+            }
             return json_response(wrapper_extra($data), 200);
 
         } catch (Exception $e) {
-            return json_response($e->getMessage(), 402);
+            return json_response($e->getMessage(), 403);
         }
     }
 
@@ -171,10 +195,16 @@ class CrudController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'address' => 'required|string'
+                'last_name' => 'required|string',
+                'phone' => 'required|string',
+                'address' => 'required|string',
+                'email' => 'required|string|email',
+                'description' => '',
+                'images' => '',
             ], [
                 'name.required' => 'Please enter name',
-                'address.required' => 'Please enter address'
+                'phone.required' => 'Please enter phone',
+                'email.required' => 'Please enter email'
             ]);
 
             if ($validator->fails()) {
@@ -186,7 +216,9 @@ class CrudController extends Controller
             if ($extra && $extra !== 'null') {
                 $values['extra'] = $extra;
             }
-
+            if ($request->input('images')) {
+                $values['images'] = parse_images($request->input('images'));
+            }
             Staff::where('id', $id)
                 ->update($values);
             $institution = Staff::find($id);
@@ -195,7 +227,7 @@ class CrudController extends Controller
                 'data' => wrapper_extra($institution),
             ], 201);
         } catch (Exception $e) {
-            return json_response($e->getMessage(), 402);
+            return json_response($e->getMessage(), 403);
         }
     }
 
@@ -217,7 +249,7 @@ class CrudController extends Controller
                 'data' => $institution,
             ], 202);
         } catch (Exception $e) {
-            return json_response($e->getMessage(), 402);
+            return json_response($e->getMessage(), 403);
         }
     }
 }
