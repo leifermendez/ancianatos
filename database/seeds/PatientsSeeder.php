@@ -4,6 +4,8 @@ use Illuminate\Database\Seeder;
 
 class PatientsSeeder extends Seeder
 {
+    private $faker;
+
     /**
      * Run the database seeds.
      *
@@ -21,6 +23,7 @@ class PatientsSeeder extends Seeder
                 'address' => $this->faker->address,
                 'description' => $this->faker->text,
                 'email' => $this->faker->email,
+                'institutions_id' => $this->faker->randomNumber(1),
                 'user_id' => 1
             ],
             [
@@ -31,6 +34,7 @@ class PatientsSeeder extends Seeder
                 'address' => $this->faker->address,
                 'description' => $this->faker->text,
                 'email' => $this->faker->email,
+                'institutions_id' => $this->faker->randomNumber(1),
                 'user_id' => 1
             ],
             [
@@ -41,6 +45,7 @@ class PatientsSeeder extends Seeder
                 'address' => $this->faker->address,
                 'description' => $this->faker->text,
                 'email' => $this->faker->email,
+                'institutions_id' => $this->faker->randomNumber(1),
                 'user_id' => 1
             ],
             [
@@ -51,6 +56,7 @@ class PatientsSeeder extends Seeder
                 'address' => $this->faker->address,
                 'description' => $this->faker->text,
                 'email' => $this->faker->email,
+                'institutions_id' => $this->faker->randomNumber(1),
                 'user_id' => 1
             ]
         );

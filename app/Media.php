@@ -11,5 +11,10 @@ class Media extends Model
     protected $fillable = [
         'small', 'medium', 'large', 'user_id', 'extra'
     ];
+
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id', 'user_id');
+    }
     //
 }

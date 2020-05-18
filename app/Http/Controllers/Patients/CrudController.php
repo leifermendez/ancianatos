@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Patients;
 use App\Exports\PatientsExport;
 use App\Http\Controllers\Controller;
 use App\Patients;
+use App\Staff;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use leifermendez\Reports\Reports;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CrudController extends Controller
@@ -69,7 +71,20 @@ class CrudController extends Controller
                     }
                 }
             })
+                ->where(function ($query) use ($request) {
+                    if ($request->src) {
+                        $query->where('name', 'LIKE', '%' . $request->src . '%')
+                            ->orWhere('last_name', 'LIKE', '%' . $request->src . '%')
+                            ->orWhere('phone', 'LIKE', '%' . $request->src . '%')
+                            ->orWhere('address', 'LIKE', '%' . $request->src . '%')
+                            ->orWhere('email', 'LIKE', '%' . $request->src . '%')
+                            ->orWhere('extra', 'LIKE', '%' . $request->src . '%')
+                            ->orWhere('description', 'LIKE', '%' . $request->src . '%');
+                    }
+
+                })
                 ->with(['user'])
+                ->orderBy('id', 'DESC')
                 ->paginate($limit);
 
             if ($export) {
@@ -108,13 +123,20 @@ class CrudController extends Controller
                 'last_name' => 'required|string',
                 'phone' => 'required|string',
                 'address' => 'required|string',
+                'emergency_name' => 'required|string',
+                'emergency_last_name' => 'required|string',
+                'emergency_phone' => 'required|string',
+                'age' => 'required',
                 'email' => 'required|string|email'
             ], [
                 'name.required' => 'Please enter name',
                 'last_name.required' => 'Please enter last_name',
                 'phone.required' => 'Please enter phone',
                 'address.required' => 'Please enter address',
-                'email.required' => 'Please enter email'
+                'email.required' => 'Please enter email',
+                'emergency_name.required' => 'Please enter emergency_name',
+                'emergency_last_name.required' => 'Please enter emergency_last_name',
+                'emergency_phone.required' => 'Please enter emergency_phone',
             ]);
 
             if ($validator->fails()) {
@@ -129,6 +151,9 @@ class CrudController extends Controller
                 ]);
             if ($extra && $extra !== 'null') {
                 $values['extra'] = $extra;
+            }
+            if ($request->input('images')) {
+                $values['images'] = parse_images($request->input('images'));
             }
             $institution = new Patients($values);
             $institution->save();
@@ -147,13 +172,18 @@ class CrudController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(Request $request, $id, Reports $pdf)
     {
         try {
-
-            $data = Patients::find($id);
+            $data = Patients::where('id', $id)->gallery();
+            if ($request->export) {
+                $name = 'single_' . Str::random(25) . '.pdf';
+                $link = $pdf->reportSingle($data, $name);
+                return json_response([
+                    'url' => $link
+                ], 200);
+            }
             return json_response(wrapper_extra($data), 200);
-
         } catch (Exception $e) {
             return json_response($e->getMessage(), 402);
         }
@@ -171,10 +201,24 @@ class CrudController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'address' => 'required|string'
+                'last_name' => 'required|string',
+                'address' => 'required|string',
+                'phone' => 'required|string',
+                'email' => 'required|string|email',
+                'emergency_name' => 'required|string',
+                'emergency_last_name' => 'required|string',
+                'emergency_phone' => 'required|string',
+                'age' => 'required'
             ], [
                 'name.required' => 'Please enter name',
-                'address.required' => 'Please enter address'
+                'address.required' => 'Please enter address',
+                'last_name.required' => 'Please enter last_name',
+                'phone.required' => 'Please enter phone',
+                'email.required' => 'Please enter email',
+                'emergency_name.required' => 'Please enter emergency_name',
+                'emergency_last_name.required' => 'Please enter emergency_last_name',
+                'emergency_phone.required' => 'Please enter emergency_phone',
+                'age.required' => 'Please enter emergency_phone',
             ]);
 
             if ($validator->fails()) {
@@ -185,6 +229,9 @@ class CrudController extends Controller
 
             if ($extra && $extra !== 'null') {
                 $values['extra'] = $extra;
+            }
+            if ($request->input('images')) {
+                $values['images'] = parse_images($request->input('images'));
             }
 
             Patients::where('id', $id)
