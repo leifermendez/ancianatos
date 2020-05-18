@@ -5,6 +5,7 @@ use Illuminate\Database\Seeder;
 class StaffSeeder extends Seeder
 {
     private $faker;
+
     /**
      * Run the database seeds.
      *
@@ -20,6 +21,7 @@ class StaffSeeder extends Seeder
                 'phone' => $this->faker->phoneNumber,
                 'photo' => $this->faker->imageUrl(),
                 'address' => $this->faker->sentence,
+                'age' => $this->faker->randomNumber(20, 60),
                 'description' => $this->faker->sentence,
                 'email' => $this->faker->email,
                 'user_id' => $this->faker->randomNumber(1)
@@ -30,6 +32,7 @@ class StaffSeeder extends Seeder
                 'phone' => $this->faker->phoneNumber,
                 'photo' => $this->faker->imageUrl(),
                 'address' => $this->faker->sentence,
+                'age' => $this->faker->randomNumber(20, 60),
                 'description' => $this->faker->sentence,
                 'email' => $this->faker->email,
                 'user_id' => $this->faker->randomNumber(1)
@@ -40,6 +43,7 @@ class StaffSeeder extends Seeder
                 'phone' => $this->faker->phoneNumber,
                 'photo' => $this->faker->imageUrl(),
                 'address' => $this->faker->sentence,
+                'age' => $this->faker->randomNumber(20, 60),
                 'description' => $this->faker->sentence,
                 'email' => $this->faker->email,
                 'user_id' => $this->faker->randomNumber(1)
@@ -50,6 +54,7 @@ class StaffSeeder extends Seeder
                 'phone' => $this->faker->phoneNumber,
                 'photo' => $this->faker->imageUrl(),
                 'address' => $this->faker->sentence,
+                'age' => $this->faker->randomNumber(20, 60),
                 'description' => $this->faker->sentence,
                 'email' => $this->faker->email,
                 'user_id' => $this->faker->randomNumber(1)

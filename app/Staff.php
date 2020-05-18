@@ -10,7 +10,7 @@ class Staff extends Model
     use SoftDeletes;
     protected $fillable = [
         'name', 'last_name', 'phone', 'photo', 'address', 'description',
-        'email', 'user_id', 'extra', 'images'
+        'email', 'user_id', 'extra', 'images', 'age'
     ];
 
     public function user()

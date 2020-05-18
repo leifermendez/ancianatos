@@ -91,3 +91,44 @@ if (!function_exists("wrapper_extra")) {
 
 
 
+if (!function_exists("wrapper_values")) {
+    /**
+     * @param string | array $data Optional data
+     * @param string $type
+     * @return string
+     */
+    function wrapper_values($data)
+    {
+        try {
+            if ($data->values) {
+                $data->values = json_decode($data->values, 1);
+            }
+            return $data;
+        } catch (Exception $e) {
+            return $data;
+        }
+    }
+}
+
+
+
+if (!function_exists("wrapper_scheme")) {
+    /**
+     * @param string | array $data Optional data
+     * @param string $type
+     * @return string
+     */
+    function wrapper_scheme($data)
+    {
+        try {
+            if ($data->scheme) {
+                $data->scheme = json_decode($data->scheme, 1);
+            }
+            return $data;
+        } catch (Exception $e) {
+            return $data;
+        }
+    }
+}
+
+

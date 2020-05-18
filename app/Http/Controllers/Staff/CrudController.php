@@ -121,13 +121,15 @@ class CrudController extends Controller
                 'phone' => 'required|string',
                 'address' => 'required|string',
                 'email' => 'required|string|email',
+                'age' => 'required',
                 'description' => ''
             ], [
                 'name.required' => 'Please enter name',
                 'last_name.required' => 'Please enter last_name',
                 'phone.required' => 'Please enter phone',
                 'address.required' => 'Please enter address',
-                'email.required' => 'Please enter email'
+                'email.required' => 'Please enter email',
+                'age.required' => 'Please enter age'
             ]);
 
             if ($validator->fails()) {
@@ -199,12 +201,14 @@ class CrudController extends Controller
                 'phone' => 'required|string',
                 'address' => 'required|string',
                 'email' => 'required|string|email',
+                'age' => 'required',
                 'description' => '',
                 'images' => '',
             ], [
                 'name.required' => 'Please enter name',
                 'phone.required' => 'Please enter phone',
-                'email.required' => 'Please enter email'
+                'email.required' => 'Please enter email',
+                'age.required' => 'Please enter age'
             ]);
 
             if ($validator->fails()) {

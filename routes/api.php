@@ -56,6 +56,11 @@ Route::group(['prefix' => '1.0'], function () {
         Route::resource('patients', 'Patients\CrudController', [
             'only' => ['index', 'show']
         ]);
+
+        Route::resource('retrieved', 'FormsValues\CrudController',
+            [
+                'only' => ['index', 'show']
+            ]);
     });
 
     /**
@@ -77,6 +82,11 @@ Route::group(['prefix' => '1.0'], function () {
             [
                 'only' => ['store', 'update', 'destroy']
             ]);
+
+        Route::resource('retrieved', 'FormsValues\CrudController',
+            [
+                'only' => ['store', 'update', 'destroy']
+            ]);
     });
 
     /**
@@ -88,6 +98,8 @@ Route::group(['prefix' => '1.0'], function () {
             [
                 'only' => ['store', 'update', 'destroy']
             ]);
+
+        Route::resource('forms', 'Forms\CrudController');
     });
 
 });
