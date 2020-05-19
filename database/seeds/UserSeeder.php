@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => $this->faker->name,
-                'email' => $this->faker->email,
+                'email' => 'manager@mail.com',
                 'avatar' => $this->faker->imageUrl(),
                 'password' => bcrypt('12345678'),
                 'level' => 'manager',

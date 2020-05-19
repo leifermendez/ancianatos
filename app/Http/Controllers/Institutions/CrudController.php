@@ -47,12 +47,13 @@ class CrudController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
+     * @param Auth $auth
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
         try {
-
+            $auth = Auth::guard()->user();
             $export = $request->input('export') ?
                 $this->export(Str::random(5), $request->input('export')) : null;
             $limit = ($request->limit) ? $request->limit : env('PAGINATE');
@@ -73,12 +74,16 @@ class CrudController extends Controller
                     }
                 }
             })
-                ->where(function ($query) use ($request) {
+                ->where(function ($query) use ($request, $auth) {
                     if ($request->src) {
                         $query->where('name', 'LIKE', '%' . $request->src . '%')
                             ->orWhere('address', 'LIKE', '%' . $request->src . '%')
                             ->orWhere('description', 'LIKE', '%' . $request->src . '%')
                             ->orWhere('extra', 'LIKE', '%' . $request->src . '%');
+                    }
+
+                    if ($auth->level !== 'admin') {
+                        $query->where('user_id',$auth->id);
                     }
 
                 })
@@ -163,7 +168,7 @@ class CrudController extends Controller
     public function show(Request $request, $id, Reports $pdf)
     {
         try {
-            $data = Institutions::where('id',$id)->gallery();
+            $data = Institutions::where('id', $id)->with(['user'])->gallery();
             if ($request->export) {
                 $name = 'single_' . Str::random(25) . '.pdf';
                 $link = $pdf->reportSingle($data, $name);

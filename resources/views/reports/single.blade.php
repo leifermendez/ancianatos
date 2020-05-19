@@ -30,8 +30,8 @@
             <b>CUIT: </b>Lorem ipsum dolor.
             <b>Dirección: </b>{{$single->address}}
             <b>Teléfono: </b>{{$single->name}}
-            <b>Teléfono celular: </b>{{$single->id}}
-            <b>Nombre y Apellido contacto: </b>{{$single->id}}
+            <b>Teléfono celular: </b>{{$single->user->name}}
+            <b>Nombre y Apellido contacto: </b>{{$single->user->name}}
         </div>
     </section>
     @foreach($forms as $form)
@@ -59,7 +59,7 @@
                             <td style="text-align: left;">{{$form->values['label_'.$key]}}</td>
                             <td style="text-align: center;">{{($value === '1') ? 'SI' : ''}}</td>
                             <td style="text-align: center;">{{($value === '0') ? 'NO' : ''}}</td>
-                            <td>{{$form->values[str_replace('question','observation',$key)]}}</td>
+                            <td>{{(isset($form->values[str_replace('question','observation',$key)]) ? $form->values[str_replace('question','observation',$key)] : '')}}</td>
                         </tr>
                     @endif
                 @endforeach

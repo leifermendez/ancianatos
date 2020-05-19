@@ -126,6 +126,7 @@ class CrudController extends Controller
                 'emergency_name' => 'required|string',
                 'emergency_last_name' => 'required|string',
                 'emergency_phone' => 'required|string',
+                'institutions_id' => 'required',
                 'age' => 'required',
                 'email' => 'required|string|email'
             ], [
@@ -135,6 +136,7 @@ class CrudController extends Controller
                 'address.required' => 'Please enter address',
                 'email.required' => 'Please enter email',
                 'emergency_name.required' => 'Please enter emergency_name',
+                'institutions_id.required' => 'Please enter institutions_id',
                 'emergency_last_name.required' => 'Please enter emergency_last_name',
                 'emergency_phone.required' => 'Please enter emergency_phone',
             ]);
@@ -208,6 +210,7 @@ class CrudController extends Controller
                 'emergency_name' => 'required|string',
                 'emergency_last_name' => 'required|string',
                 'emergency_phone' => 'required|string',
+                'institutions_id' => 'required',
                 'age' => 'required'
             ], [
                 'name.required' => 'Please enter name',
@@ -218,6 +221,7 @@ class CrudController extends Controller
                 'emergency_name.required' => 'Please enter emergency_name',
                 'emergency_last_name.required' => 'Please enter emergency_last_name',
                 'emergency_phone.required' => 'Please enter emergency_phone',
+                'institutions_id.required' => 'Please enter institutions_id',
                 'age.required' => 'Please enter emergency_phone',
             ]);
 

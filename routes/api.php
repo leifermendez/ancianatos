@@ -87,6 +87,11 @@ Route::group(['prefix' => '1.0'], function () {
             [
                 'only' => ['store', 'update', 'destroy']
             ]);
+
+        Route::resource('forms', 'Forms\CrudController',
+            [
+                'only' => ['index', 'show', 'edit']
+            ]);
     });
 
     /**
@@ -99,7 +104,10 @@ Route::group(['prefix' => '1.0'], function () {
                 'only' => ['store', 'update', 'destroy']
             ]);
 
-        Route::resource('forms', 'Forms\CrudController');
+        Route::resource('forms', 'Forms\CrudController',
+            [
+                'only' => ['store', 'update', 'destroy']
+            ]);
     });
 
 });

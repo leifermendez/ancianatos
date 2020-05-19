@@ -12,7 +12,7 @@ class Institutions extends Model
 
     public function user()
     {
-        return $this->hasMany('App\User', 'id', 'user_id');
+        return $this->hasOne('App\User', 'id', 'user_id');
     }
 
     public function scopeGallery($query)

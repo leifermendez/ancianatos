@@ -25,6 +25,7 @@ class CreateStaffTable extends Migration
             $table->string('email');
             $table->integer('age');
             $table->integer('user_id')->unsigned();
+            $table->integer('institutions_id')->unsigned();
             $table->longText('extra')->nullable();
             $table->softDeletes();
             $table->timestamps();

@@ -24,7 +24,8 @@ class StaffSeeder extends Seeder
                 'age' => $this->faker->randomNumber(2),
                 'description' => $this->faker->sentence,
                 'email' => $this->faker->email,
-                'user_id' => $this->faker->randomNumber(1)
+                'user_id' => $this->faker->randomNumber(1),
+                'institutions_id' => $this->faker->randomNumber(1)
             ],
             [
                 'name' => $this->faker->name,
@@ -35,7 +36,8 @@ class StaffSeeder extends Seeder
                 'age' => $this->faker->randomNumber(2),
                 'description' => $this->faker->sentence,
                 'email' => $this->faker->email,
-                'user_id' => $this->faker->randomNumber(1)
+                'user_id' => $this->faker->randomNumber(1),
+                'institutions_id' => $this->faker->randomNumber(1)
             ],
             [
                 'name' => $this->faker->name,
@@ -46,7 +48,8 @@ class StaffSeeder extends Seeder
                 'age' => $this->faker->randomNumber(2),
                 'description' => $this->faker->sentence,
                 'email' => $this->faker->email,
-                'user_id' => $this->faker->randomNumber(1)
+                'user_id' => $this->faker->randomNumber(1),
+                'institutions_id' => $this->faker->randomNumber(1)
             ],
             [
                 'name' => $this->faker->name,
@@ -57,7 +60,8 @@ class StaffSeeder extends Seeder
                 'age' => $this->faker->randomNumber(2),
                 'description' => $this->faker->sentence,
                 'email' => $this->faker->email,
-                'user_id' => $this->faker->randomNumber(1)
+                'user_id' => $this->faker->randomNumber(1),
+                'institutions_id' => $this->faker->randomNumber(1)
             ]
         );
 
