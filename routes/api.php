@@ -32,6 +32,17 @@ Route::group(['prefix' => '1.0'], function () {
             ->middleware(['auth:api']);
 
         Route::post('login', 'Auth\LoginController@login');
+
+        /**
+         * Rutas firmadas
+         *
+         */
+
+        Route::get('confirmed/{id}', 'Auth\LoginController@signed')
+            ->name('user.confirmed');
+
+        Route::put('confirmed', 'Auth\LoginController@updatePassword')
+            ->middleware(['auth:api']);
     });
 
     /**

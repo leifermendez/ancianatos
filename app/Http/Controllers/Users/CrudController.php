@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use leifermendez\Reports\Reports;
@@ -115,14 +116,13 @@ class CrudController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
                 'level' => 'required|string|in:user,manager,admin',
-                'email' => 'required|string|email|unique:users',
-                'password' => 'required|string|confirmed'
+                'email' => 'required|string|email|unique:users'
             ], [
                 'name.required' => 'Please enter name',
                 'level.required' => 'Please enter level',
-                'email.required' => 'Please enter email',
-                'password.required' => 'Please enter password',
+                'email.required' => 'Please enter email'
             ]);
+
 
             if ($validator->fails()) {
                 throw new Exception($validator->messages());
@@ -144,16 +144,19 @@ class CrudController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'level' => $request->level,
-                'password' => bcrypt($request->password),
+                'password' => bcrypt(Str::random(8)),
             ]);
             $user->save();
+            $link = URL::temporarySignedRoute(
+                'user.confirmed',
+                now()->addDay(),
+                ['id' => $user->id]
+            );
+            $user->link = $link;
             return response()->json([
                 'data' => $user,
             ], 201);
 
-            return response()->json([
-                'data' => wrapper_extra($institution),
-            ], 201);
         } catch (Exception $e) {
             return json_response($e->getMessage(), 403);
         }

@@ -101,4 +101,49 @@ class LoginController extends Controller
     {
         return response()->json($request->user());
     }
+
+    public function signed(Request $request, $id)
+    {
+        try {
+            if (!$request->hasValidSignature()) {
+                abort(403);
+            }
+
+            $data = Auth::loginUsingId($id);
+            $user = $data;
+            $tokenResult = $user->createToken('Personal Access Token');
+            $token = $tokenResult->token;
+            $token->save();
+
+            return response()->json([
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'user' => $request->user(),
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at)
+                    ->toDateTimeString(),
+            ]);
+
+        } catch (Exception $e) {
+            return json_response($e->getMessage(), 403);
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        try {
+            $id = Auth::guard()->id();
+            User::where('id', $id)
+                ->update([
+                    'password' => bcrypt($request->input('password'))
+                ]);
+            $institution = User::find($id);
+
+            return response()->json([
+                'data' => wrapper_extra($institution),
+            ], 201);
+        } catch (Exception $e) {
+            return json_response($e->getMessage(), 403);
+        }
+    }
 }
