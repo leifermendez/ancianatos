@@ -65,7 +65,9 @@
             "@php artisan storage:link",
             "@php artisan cache:clear",
             "@php artisan config:clear",
-            "@php artisan view:clear"
+            "@php artisan view:clear",
+            "chmod -R 775 storage",
+            "chmod -R 775 bootstrap"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
