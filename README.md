@@ -39,3 +39,7 @@ Ejecutar en orden los siguientes comandos.
 
 Si estas en tu pc ejecutar:
 `php artisan serve`
+
+__IMPORTANTE__
+
+Recuerda ejecutar `php artisan passport:keys --force`
