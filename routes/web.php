@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,5 +20,7 @@ Route::get('/', function () {
 
 
 Route::get('/test', function () {
-    return view('reports.single');
+    Artisan::call('migrate', ['--force' => true]);
+    Artisan::call('db:seed');
+    Artisan::call('passport:install ');
 });
