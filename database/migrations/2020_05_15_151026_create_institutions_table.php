@@ -19,6 +19,7 @@ class CreateInstitutionsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('address');
+            $table->string('phone');
             $table->longText('description')->nullable();
             $table->integer('user_id')->unsigned();
             $table->longText('images')->nullable();

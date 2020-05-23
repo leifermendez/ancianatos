@@ -23,6 +23,7 @@ class PatientsSeeder extends Seeder
                 'address' => $this->faker->address,
                 'description' => $this->faker->text,
                 'email' => $this->faker->email,
+                'age' => $this->faker->randomNumber(2),
                 'institutions_id' => $this->faker->randomNumber(1),
                 'user_id' => 1
             ],
@@ -34,6 +35,7 @@ class PatientsSeeder extends Seeder
                 'address' => $this->faker->address,
                 'description' => $this->faker->text,
                 'email' => $this->faker->email,
+                'age' => $this->faker->randomNumber(2),
                 'institutions_id' => $this->faker->randomNumber(1),
                 'user_id' => 1
             ],
@@ -45,6 +47,7 @@ class PatientsSeeder extends Seeder
                 'address' => $this->faker->address,
                 'description' => $this->faker->text,
                 'email' => $this->faker->email,
+                'age' => $this->faker->randomNumber(2),
                 'institutions_id' => $this->faker->randomNumber(1),
                 'user_id' => 1
             ],
@@ -56,6 +59,7 @@ class PatientsSeeder extends Seeder
                 'address' => $this->faker->address,
                 'description' => $this->faker->text,
                 'email' => $this->faker->email,
+                'age' => $this->faker->randomNumber(2),
                 'institutions_id' => $this->faker->randomNumber(1),
                 'user_id' => 1
             ]

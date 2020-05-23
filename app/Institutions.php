@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Institutions extends Model
 {
     protected $fillable = [
-        'name', 'address', 'description', 'user_id', 'extra', 'images'
+        'id',
+        'name', 'address', 'description', 'user_id', 'extra', 'images', 'phone'
     ];
 
     public function user()

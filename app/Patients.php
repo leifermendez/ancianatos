@@ -20,6 +20,11 @@ class Patients extends Model
         return $this->hasMany('App\User', 'id', 'user_id');
     }
 
+    public function institution()
+    {
+        return $this->hasOne('App\Institutions', 'id', 'institutions_id');
+    }
+
     public function scopeGallery($query)
     {
         try {

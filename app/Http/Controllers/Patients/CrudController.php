@@ -45,14 +45,28 @@ class CrudController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
+     * @param Reports $pdf
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index(Request $request, Reports $pdf)
     {
         try {
 
+            $labels = [
+                'name' => 'Nombre',
+                'last_name' => 'Apellidos',
+                'address' => 'Dirección',
+                'phone' => 'Telefono',
+                'email' => 'Email',
+                'age' => 'Edad',
+                'emergency_name' => 'Contacto emergencia',
+                'emergency_phone' => 'Telefono emergencia',
+                'institutions_id' => 'Institucion',
+            ];
             $export = $request->input('export') ?
-                $this->export(Str::random(5), $request->input('export')) : null;
+                $pdf->listReport(Str::random(4) . '.pdf',
+                    'Patients', $labels, $title = 'Pacientes',
+                    ['institution']) : null;
             $limit = ($request->limit) ? $request->limit : env('PAGINATE');
             $filters = ($request->filters) ? explode("?", $request->filters) : [];
             $data = Patients::where(function ($query) use ($filters) {

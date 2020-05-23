@@ -23,21 +23,22 @@ class CrudController extends Controller
     {
         try {
 
-            if ($format === 'pdf') {
-                $format = [
-                    'load' => \Maatwebsite\Excel\Excel::MPDF,
-                    'extension' => 'pdf'
-                ];
-            }
-            if ($format === 'xlsx') {
-                $format = [
-                    'load' => \Maatwebsite\Excel\Excel::XLSX,
-                    'extension' => 'xlsx'
-                ];
-            }
-            $name = $name . '.' . $format['extension'];
-            Excel::store(new InstitutionsExport, $name, 'public');
-            return Storage::disk('public')->url($name);
+
+//            if ($format === 'pdf') {
+//                $format = [
+//                    'load' => \Maatwebsite\Excel\Excel::MPDF,
+//                    'extension' => 'pdf'
+//                ];
+//            }
+//            if ($format === 'xlsx') {
+//                $format = [
+//                    'load' => \Maatwebsite\Excel\Excel::XLSX,
+//                    'extension' => 'xlsx'
+//                ];
+//            }
+//            $name = $name . '.' . $format['extension'];
+//            Excel::store(new InstitutionsExport, $name, 'public');
+//            return Storage::disk('public')->url($name);
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -50,12 +51,17 @@ class CrudController extends Controller
      * @param Auth $auth
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index(Request $request, Reports $pdf)
     {
         try {
+            $labels = [
+                'name' => 'Nombre',
+                'address' => 'Dirección',
+                'phone' => 'Telefono'
+            ];
             $auth = Auth::guard()->user();
             $export = $request->input('export') ?
-                $this->export(Str::random(5), $request->input('export')) : null;
+                $pdf->listReport(Str::random(4) . '.pdf', 'Institutions', $labels, $title = 'Instituciones') : null;
             $limit = ($request->limit) ? $request->limit : env('PAGINATE');
             $filters = ($request->filters) ? explode("?", $request->filters) : [];
             $data = Institutions::where(function ($query) use ($filters) {
@@ -83,7 +89,7 @@ class CrudController extends Controller
                     }
 
                     if ($auth->level !== 'admin') {
-                        $query->where('user_id',$auth->id);
+                        $query->where('user_id', $auth->id);
                     }
 
                 })

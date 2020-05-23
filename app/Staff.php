@@ -18,6 +18,10 @@ class Staff extends Model
         return $this->hasOne('App\User', 'id', 'user_id');
     }
 
+    public function institution()
+    {
+        return $this->hasOne('App\Institutions', 'id', 'institutions_id');
+    }
     public function scopeGallery($query)
     {
         try {

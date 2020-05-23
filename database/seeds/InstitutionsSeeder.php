@@ -20,18 +20,21 @@ class InstitutionsSeeder extends Seeder
                 'name' => $this->faker->name,
                 'address' => $this->faker->address,
                 'description' => $this->faker->address,
+                'phone' => $this->faker->phoneNumber,
                 'user_id' => $this->faker->randomNumber(1)
             ],
             [
                 'name' => $this->faker->name,
                 'address' => $this->faker->address,
                 'description' => $this->faker->address,
+                'phone' => $this->faker->phoneNumber,
                 'user_id' => $this->faker->randomNumber(1)
             ],
             [
                 'name' => $this->faker->name,
                 'address' => $this->faker->address,
                 'description' => $this->faker->address,
+                'phone' => $this->faker->phoneNumber,
                 'user_id' => $this->faker->randomNumber(1)
             ]
         );

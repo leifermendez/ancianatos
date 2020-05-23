@@ -47,12 +47,19 @@ class CrudController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function index(Request $request, Reports $pdf)
     {
         try {
 
+            $labels = [
+                'name' => 'Nombre',
+                'address' => 'Dirección',
+                'phone' => 'Telefono',
+                'institutions_id' => 'Institucion'
+            ];
             $export = $request->input('export') ?
-                $this->export(Str::random(5), $request->input('export')) : null;
+                $pdf->listReport(Str::random(4) . '.pdf', 'Staff', $labels, $title = 'Personal',
+                    ['institution']) : null;
             $limit = ($request->limit) ? $request->limit : env('PAGINATE');
             $filters = ($request->filters) ? explode("?", $request->filters) : [];
             $data = Staff::where(function ($query) use ($filters) {
