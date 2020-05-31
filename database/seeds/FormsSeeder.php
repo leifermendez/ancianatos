@@ -13,7 +13,7 @@ class FormsSeeder extends Seeder
      */
     public function run()
     {
-        $form_1 =   [
+        $form_1 = [
             'title' => 'PROTECCIÓN CONTRA INCENDIOS',
             'scheme' => json_encode([
                 [
@@ -447,7 +447,7 @@ class FormsSeeder extends Seeder
                 ]
             ])
         ];
-        $form_2 =   [
+        $form_2 = [
             'title' => 'PROTECCIÓN ELÉCTRICA',
             'scheme' => json_encode([
                 [
@@ -848,7 +848,7 @@ class FormsSeeder extends Seeder
                 ]
             ])
         ];
-        $form_3 =   [
+        $form_3 = [
             'title' => 'SEÑALIZACIÓN',
             'scheme' => json_encode([
                 [
@@ -1150,7 +1150,7 @@ class FormsSeeder extends Seeder
                 ]
             ])
         ];
-        $form_4 =   [
+        $form_4 = [
             'title' => 'ILUMINACIÓN DE EMERGENCIAS',
             'scheme' => json_encode([
                 [
@@ -1188,7 +1188,7 @@ class FormsSeeder extends Seeder
                 ]
             ])
         ];
-        $form_5 =   [
+        $form_5 = [
             'title' => 'OTRAS CONSIDERACIONES',
             'scheme' => json_encode([
                 [
@@ -1259,14 +1259,19 @@ class FormsSeeder extends Seeder
                 ]
             ])
         ];
+        $form_6 = [
+            'title' => 'DECLARACION JURADA',
+            'scheme' => '[{\"key\":\"question_1\",\"type\":\"input\",\"templateOptions\":{\"label\":\"Nombre de la Instituci\ón\",\"placeholder\":null}},{\"key\":\"question_2\",\"type\":\"input\",\"templateOptions\":{\"label\":\"Nombre del responsable\",\"placeholder\":null}},{\"key\":\"question_3\",\"type\":\"input\",\"templateOptions\":{\"label\":\"Tel\éfono\",\"placeholder\":null}},{\"key\":\"question_4\",\"type\":\"input\",\"templateOptions\":{\"label\":\"Fecha de Inicio de la actividad\",\"placeholder\":null,\"type\":\"date\"}},{\"key\":\"question_5\",\"type\":\"input\",\"templateOptions\":{\"label\":\"Nombre del Medico\\/a y horas semanales de trabajo\",\"placeholder\":null}},{\"key\":\"question_6\",\"type\":\"input\",\"templateOptions\":{\"label\":\"Nombre de Enfermero\\/a y horas semanales de trabajo\",\"placeholder\":null}},{\"key\":\"question_7\",\"type\":\"input\",\"templateOptions\":{\"label\":\"Servicio de Emergencia\",\"placeholder\":null}},{\"key\":\"question_8\",\"type\":\"input\",\"templateOptions\":{\"label\":\"Cantidad de Residentes\",\"placeholder\":null,\"type\":\"number\"}},{\"key\":\"question_9\",\"type\":\"input\",\"templateOptions\":{\"label\":\"Cantidad de Empleados\\/colaboradores\\/asistentes\",\"placeholder\":null,\"type\":\"number\"}}]'
+        ];
 
         $this->faker = $faker = Faker\Factory::create();
         $tests = array(
-          $form_1,
-          $form_2,
-          $form_3,
-          $form_4,
-          $form_5,
+            $form_1,
+            $form_2,
+            $form_3,
+            $form_4,
+            $form_5,
+            $form_6,
         );
 
         foreach ($tests as $key) {
