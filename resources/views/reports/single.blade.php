@@ -26,12 +26,12 @@
         <h4 style="text-align: center;margin: 0;">FORMULARIO CONTROL DE ESTADO - ORD. N° 4049</h4>
         <br>
         <div style="font-size: .8rem">
-            <b>Razón Social: </b>{{$single->name}}
-            <b>CUIT: </b>Lorem ipsum dolor.
-            <b>Dirección: </b>{{$single->address}}
-            <b>Teléfono: </b>{{$single->name}}
-            <b>Teléfono celular: </b>{{$single->user->name}}
-            <b>Nombre y Apellido contacto: </b>{{$single->user->name}}
+            <b>Razón Social: </b>{{(isset($single->name)) ? $single->name : ''}}
+            <b>CUIT: </b>
+            <b>Dirección: </b>{{(isset($single->address)) ? $single->address : ''}}
+            <b>Teléfono: </b>{{(isset($single->phone)) ? $single->phone : ''}}
+            <b>Teléfono celular: </b>{{(isset($single->phone)) ? $single->phone : ''}}
+            <b>Nombre y Apellido contacto: </b>{{(isset($single->name)) ? $single->name : ''}}
         </div>
     </section>
     @foreach($forms as $form)

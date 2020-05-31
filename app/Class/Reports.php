@@ -32,6 +32,8 @@ class Reports
             )
             ->get();
 
+//        dd($forms);
+
         $forms->map(function ($data) {
             $val = json_decode($data->values, 1);
             $scheme = json_decode($data->form_scheme, 1);

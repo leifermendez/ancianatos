@@ -142,7 +142,7 @@ class CrudController extends Controller
             if ($validator->fails()) {
                 throw new Exception($validator->messages());
             }
-            $data = Forms::find($id)->values($request->input('target'));
+            $data = Forms::where('id',$id)->values($request->input('target'));
             return json_response(wrapper_extra($data), 200);
         } catch (Exception $e) {
             return json_response($e->getMessage(), 403);
