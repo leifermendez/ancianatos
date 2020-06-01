@@ -177,7 +177,7 @@ class CrudController extends Controller
             $data = Institutions::where('id', $id)->with(['user'])->gallery();
             if ($request->export) {
                 $name = 'single_' . Str::random(25) . '.pdf';
-                $link = $pdf->reportSingle($data, $name);
+                $link = $pdf->reportSingle($data, $name, $request->input('mode'));
                 return json_response([
                     'url' => $link
                 ], 200);

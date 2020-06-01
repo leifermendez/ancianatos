@@ -11,6 +11,7 @@ class Forms extends Model
     protected $fillable = [
         'title',
         'scheme',
+        'declaration',
         'source'
     ];
     //

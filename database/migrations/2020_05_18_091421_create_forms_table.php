@@ -19,6 +19,7 @@ class CreateFormsTable extends Migration
             $table->longText('scheme');
             $table->enum('source', ['institutions', 'users', 'staff', 'patients'])
                 ->default('institutions');
+            $table->string('mode')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -19,8 +19,12 @@ Route::get('/', function () {
 });
 
 
-Route::get('/test', function () {
+Route::get('/db', function () {
     Artisan::call('migrate', ['--force' => true]);
     Artisan::call('db:seed');
     Artisan::call('passport:install ');
+});
+
+Route::get('/test', function () {
+    return view('reports.declaration');
 });
