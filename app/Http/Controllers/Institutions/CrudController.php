@@ -131,6 +131,7 @@ class CrudController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
                 'address' => 'required|string',
+                'phone' => '',
                 'description' => '',
                 'extra' => '',
             ], [
