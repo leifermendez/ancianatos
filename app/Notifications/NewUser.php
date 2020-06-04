@@ -41,7 +41,7 @@ class NewUser extends Notification
     public function toMail($notifiable)
     {
         $link = str_replace(
-            env('APP_URL').'/api/1.0',
+            env('APP_URL'),
             env('FRONT_URL').'/#',
             $notifiable->link);
 

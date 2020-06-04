@@ -146,10 +146,7 @@ class CrudController extends Controller
 
             $extra = parse_extra($request->input('extra'));
 
-//            $values = array_merge($validator->validate(),
-//                [
-//                    'user_id' => Auth::guard()->id(),
-//                ]);
+            $values = $validator->validate();
             if ($extra && $extra !== 'null') {
                 $values['extra'] = $extra;
             }
@@ -207,6 +204,7 @@ class CrudController extends Controller
                 'name' => 'required|string',
                 'address' => 'required|string',
                 'description' => '',
+                'user_id' => 'required',
                 'extra' => '',
             ], [
                 'name.required' => 'Please enter name',
@@ -217,7 +215,7 @@ class CrudController extends Controller
                 throw new Exception($validator->messages());
             }
             $extra = parse_extra($request->input('extra'));
-            $values = array_merge($validator->validate(), ['user_id' => Auth::guard()->id()]);
+            $values = $validator->validate();
 
             if ($extra && $extra !== 'null') {
                 $values['extra'] = $extra;
