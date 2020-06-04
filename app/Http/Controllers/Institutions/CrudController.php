@@ -133,6 +133,7 @@ class CrudController extends Controller
                 'address' => 'required|string',
                 'phone' => '',
                 'description' => '',
+                'user_id' => 'required',
                 'extra' => '',
             ], [
                 'name.required' => 'Please enter name',
@@ -145,10 +146,10 @@ class CrudController extends Controller
 
             $extra = parse_extra($request->input('extra'));
 
-            $values = array_merge($validator->validate(),
-                [
-                    'user_id' => Auth::guard()->id(),
-                ]);
+//            $values = array_merge($validator->validate(),
+//                [
+//                    'user_id' => Auth::guard()->id(),
+//                ]);
             if ($extra && $extra !== 'null') {
                 $values['extra'] = $extra;
             }
@@ -161,6 +162,7 @@ class CrudController extends Controller
             return response()->json([
                 'data' => wrapper_extra($institution),
             ], 201);
+
         } catch (Exception $e) {
             return json_response($e->getMessage(), 403);
         }

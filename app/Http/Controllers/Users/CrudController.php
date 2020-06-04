@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 use App\Exports\UserExport;
 use App\Http\Controllers\Controller;
 use App\Institutions;
+use App\Notifications\NewUser;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -153,6 +154,9 @@ class CrudController extends Controller
                 ['id' => $user->id]
             );
             $user->link = $link;
+
+            $user->notify(new NewUser($user));
+
             return response()->json([
                 'data' => $user,
             ], 201);
