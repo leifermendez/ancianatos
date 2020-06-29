@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->enum('level', ['admin', 'manager', 'user'])->default('user');
             $table->string('avatar')->nullable();
             $table->string('password');
+            $table->string('zone');
             $table->integer('user_id')->nullable();
             $table->longText('images')->nullable();
             $table->longText('extra')->nullable();

@@ -117,11 +117,13 @@ class CrudController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
                 'level' => 'required|string|in:user,manager,admin',
-                'email' => 'required|string|email|unique:users'
+                'email' => 'required|string|email|unique:users',
+                'zone' => 'required|string'
             ], [
                 'name.required' => 'Please enter name',
                 'level.required' => 'Please enter level',
-                'email.required' => 'Please enter email'
+                'email.required' => 'Please enter email',
+                'zone.required' => 'Please enter zone'
             ]);
 
 

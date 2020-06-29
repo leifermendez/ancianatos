@@ -22,7 +22,8 @@ class UserSeeder extends Seeder
                 'avatar' => $this->faker->imageUrl(),
                 'level' => 'admin',
                 'password' => bcrypt('12345678'),
-                'user_id' => 1
+                'user_id' => 1,
+                'zone' => 'madrid'
             ],
             [
                 'name' => $this->faker->name,
@@ -30,21 +31,24 @@ class UserSeeder extends Seeder
                 'avatar' => $this->faker->imageUrl(),
                 'password' => bcrypt('12345678'),
                 'level' => 'manager',
-                'user_id' => 1
+                'user_id' => 1,
+                'zone' => 'madrid'
             ],
             [
                 'name' => $this->faker->name,
                 'email' => $this->faker->email,
                 'avatar' => $this->faker->imageUrl(),
                 'password' => bcrypt('12345678'),
-                'user_id' => 1
+                'user_id' => 1,
+                'zone' => 'barcelona'
             ],
             [
                 'name' => $this->faker->name,
                 'email' => $this->faker->email,
                 'avatar' => $this->faker->imageUrl(),
                 'password' => bcrypt('12345678'),
-                'user_id' => 1
+                'user_id' => 1,
+                'zone' => 'madrid'
             ]
         );
 
