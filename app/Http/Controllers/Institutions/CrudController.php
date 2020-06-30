@@ -133,7 +133,7 @@ class CrudController extends Controller
                 'address' => 'required|string',
                 'phone' => '',
                 'description' => '',
-                'user_id' => 'required',
+//                'user_id' => 'required',
                 'extra' => '',
             ], [
                 'name.required' => 'Please enter name',
@@ -153,6 +153,7 @@ class CrudController extends Controller
             if ($request->input('images')) {
                 $values['images'] = parse_images($request->input('images'));
             }
+            $values = array_merge($validator->validate(), ['user_id' => Auth::guard()->id()]);
             $institution = new Institutions($values);
             $institution->save();
 

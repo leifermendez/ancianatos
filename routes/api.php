@@ -103,6 +103,11 @@ Route::group(['prefix' => '1.0'], function () {
             [
                 'only' => ['index', 'show', 'edit']
             ]);
+
+        Route::resource('users', 'Users\CrudController',
+            [
+                'only' => ['store', 'update', 'destroy']
+            ]);
     });
 
     /**
@@ -110,10 +115,6 @@ Route::group(['prefix' => '1.0'], function () {
      */
 
     Route::middleware(['auth:api', 'user.admin'])->group(function () {
-        Route::resource('users', 'Users\CrudController',
-            [
-                'only' => ['store', 'update', 'destroy']
-            ]);
 
         Route::resource('forms', 'Forms\CrudController',
             [

@@ -52,7 +52,7 @@ class CrudController extends Controller
     public function index(Request $request)
     {
         try {
-
+            $user = Auth::user();
             $export = $request->input('export') ?
                 $this->export(Str::random(5), $request->input('export')) : null;
             $limit = ($request->limit) ? $request->limit : env('PAGINATE');
@@ -73,10 +73,13 @@ class CrudController extends Controller
                     }
                 }
             })
-                ->where(function ($query) use ($request) {
+                ->where(function ($query) use ($request, $user) {
                     if ($request->src) {
                         $query->where('name', 'LIKE', '%' . $request->src . '%')
                             ->orWhere('email', 'LIKE', '%' . $request->src . '%');
+                    }
+                    if ($user->level === 'manager') {
+                        $query->where('user_id', $user->id);
                     }
 
                 })
@@ -147,6 +150,8 @@ class CrudController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'level' => $request->level,
+                'zone' => $request->zone,
+                'user_id' => Auth::guard()->id(),
                 'password' => bcrypt(Str::random(8)),
             ]);
             $user->save();
