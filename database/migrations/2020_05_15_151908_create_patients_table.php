@@ -25,6 +25,7 @@ class CreatePatientsTable extends Migration
             $table->string('emergency_phone')->nullable();
             $table->longText('description')->nullable();
             $table->longText('images')->nullable();
+            $table->string('zone')->nullable();
             $table->integer('age')->nullable();
             $table->integer('user_id')->unsigned();
             $table->integer('institutions_id')->unsigned();

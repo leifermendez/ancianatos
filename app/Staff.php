@@ -10,7 +10,7 @@ class Staff extends Model
     use SoftDeletes;
     protected $fillable = [
         'name', 'last_name', 'phone', 'photo', 'address', 'description',
-        'email', 'user_id', 'extra', 'images', 'age', 'institutions_id'
+        'email', 'user_id', 'extra', 'images', 'age', 'institutions_id', 'zone'
     ];
 
     public function user()
@@ -22,6 +22,7 @@ class Staff extends Model
     {
         return $this->hasOne('App\Institutions', 'id', 'institutions_id');
     }
+
     public function scopeGallery($query)
     {
         try {

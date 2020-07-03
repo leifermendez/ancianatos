@@ -50,7 +50,7 @@ class CrudController extends Controller
     public function index(Request $request, Reports $pdf)
     {
         try {
-
+            $auth = Auth::guard()->user();
             $labels = [
                 'name' => 'Nombre',
                 'address' => 'Dirección',
@@ -78,14 +78,16 @@ class CrudController extends Controller
                     }
                 }
             })
-                ->where(function ($query) use ($request) {
+                ->where(function ($query) use ($request, $auth) {
                     if ($request->src) {
                         $query->where('name', 'LIKE', '%' . $request->src . '%')
                             ->orWhere('last_name', 'LIKE', '%' . $request->src . '%')
                             ->orWhere('description', 'LIKE', '%' . $request->src . '%')
                             ->orWhere('extra', 'LIKE', '%' . $request->src . '%');
                     }
-
+                    if ($auth->level !== 'admin') {
+                        $query->where('zone', $auth->zone);
+                    }
                 })
                 ->with(['user'])
                 ->orderBy('id', 'DESC')
@@ -122,6 +124,7 @@ class CrudController extends Controller
     public function store(Request $request)
     {
         try {
+            $auth = Auth::guard()->user();
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
                 'last_name' => 'required|string',
@@ -150,6 +153,7 @@ class CrudController extends Controller
             $values = array_merge($validator->validate(),
                 [
                     'user_id' => Auth::guard()->id(),
+                    'zone' => $auth->zone
                 ]);
             if ($extra && $extra !== 'null') {
                 $values['extra'] = $extra;

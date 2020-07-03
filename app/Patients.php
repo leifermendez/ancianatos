@@ -12,7 +12,7 @@ class Patients extends Model
         'name', 'last_name', 'phone', 'photo',
         'address', 'description', 'user_id', 'email', 'extra','images',
         'emergency_name', 'emergency_last_name', 'emergency_phone', 'age',
-        'institutions_id'
+        'institutions_id','zone'
     ];
 
     public function user()

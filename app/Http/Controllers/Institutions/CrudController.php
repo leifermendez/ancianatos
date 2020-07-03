@@ -89,7 +89,7 @@ class CrudController extends Controller
                     }
 
                     if ($auth->level !== 'admin') {
-                        $query->where('user_id', $auth->id);
+                        $query->where('zone', $auth->zone);
                     }
 
                 })
@@ -128,12 +128,13 @@ class CrudController extends Controller
     public function store(Request $request)
     {
         try {
+            $auth = Auth::guard()->user();
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
                 'address' => 'required|string',
                 'phone' => '',
                 'description' => '',
-//                'user_id' => 'required',
+                'type' => '',
                 'extra' => '',
             ], [
                 'name.required' => 'Please enter name',
@@ -153,7 +154,7 @@ class CrudController extends Controller
             if ($request->input('images')) {
                 $values['images'] = parse_images($request->input('images'));
             }
-            $values = array_merge($validator->validate(), ['user_id' => Auth::guard()->id()]);
+            $values = array_merge($values, ['user_id' => Auth::guard()->id(),'zone'=>$auth->zone]);
             $institution = new Institutions($values);
             $institution->save();
 

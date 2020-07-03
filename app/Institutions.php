@@ -8,7 +8,7 @@ class Institutions extends Model
 {
     protected $fillable = [
         'id',
-        'name', 'address', 'description', 'user_id', 'extra', 'images', 'phone'
+        'name', 'address', 'description', 'user_id', 'extra', 'images', 'phone', 'zone', 'type'
     ];
 
     public function user()
