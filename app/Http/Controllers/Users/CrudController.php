@@ -257,6 +257,7 @@ class CrudController extends Controller
                 return json_response(trans('general.not.found'), 404);
             }
             $institution = User::find($id);
+            $institution->update(['email' => 'delete_'.$institution->email]);
             $institution->delete();
             return response()->json([
                 'data' => $institution,

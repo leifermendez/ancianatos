@@ -89,7 +89,7 @@ class CrudController extends Controller
                         $query->where('zone', $auth->zone);
                     }
                 })
-                ->with(['user'])
+                ->with(['user','institution'])
                 ->orderBy('id', 'DESC')
                 ->paginate($limit);
 

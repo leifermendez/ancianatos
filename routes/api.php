@@ -102,7 +102,7 @@ Route::group(['prefix' => '1.0'], function () {
         Route::resource('forms', 'Forms\CrudController',
             [
                 'only' => ['index', 'show', 'edit']
-            ]);
+            ])->middleware('manager.forms');
 
         Route::resource('users', 'Users\CrudController',
             [

@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckRangeLevel;
 use App\Http\Middleware\UserControl;
 use App\Http\Middleware\UserManager;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -66,5 +67,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'user.admin' => UserControl::class,
         'user.manager' => UserManager::class,
+        'manager.forms' => CheckRangeLevel::class,
     ];
 }
