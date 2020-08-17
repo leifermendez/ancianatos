@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Helpers\HandleResponse\HandleResponse;
 use App\Http\Controllers\Controller;
+use App\Notifications\NewUser;
 use App\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -142,6 +144,36 @@ class LoginController extends Controller
             return response()->json([
                 'data' => wrapper_extra($institution),
             ], 201);
+        } catch (Exception $e) {
+            return json_response($e->getMessage(), 403);
+        }
+    }
+
+    public function forget(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|string|email',
+            ], [
+                'email.required' => 'Please enter email'
+            ]);
+            if ($validator->fails()) {
+                throw new Exception($validator->messages());
+            }
+
+            $user = User::where('email', $request->email)->first();
+
+            $link = URL::temporarySignedRoute(
+                'user.confirmed',
+                now()->addDay(),
+                ['id' => $user->id]
+            );
+            $user->link = $link;
+            $user->notify(new NewUser($user));
+            return response()->json([
+                'data' => $user,
+            ], 201);
+
         } catch (Exception $e) {
             return json_response($e->getMessage(), 403);
         }

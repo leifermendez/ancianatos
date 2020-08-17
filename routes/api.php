@@ -33,6 +33,8 @@ Route::group(['prefix' => '1.0'], function () {
 
         Route::post('login', 'Auth\LoginController@login');
 
+        Route::post('forget', 'Auth\LoginController@forget');
+
         /**
          * Rutas firmadas
          *
