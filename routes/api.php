@@ -66,9 +66,24 @@ Route::group(['prefix' => '1.0'], function () {
             'only' => ['index', 'show']
         ]);
 
+        Route::resource('staff', 'Staff\CrudController',
+            [
+                'only' => ['store', 'update', 'destroy']
+            ])->middleware(['user.role']);
+
+        Route::resource('patients', 'Patients\CrudController',
+            [
+                'only' => ['store', 'update', 'destroy']
+            ])->middleware(['user.role']);
+
         Route::resource('patients', 'Patients\CrudController', [
             'only' => ['index', 'show']
         ]);
+
+        Route::resource('forms', 'Forms\CrudController',
+            [
+                'only' => ['index', 'show']
+            ]);
 
         Route::resource('retrieved', 'FormsValues\CrudController',
             [
@@ -86,16 +101,6 @@ Route::group(['prefix' => '1.0'], function () {
                 'only' => ['store', 'update', 'destroy']
             ]);
 
-        Route::resource('staff', 'Staff\CrudController',
-            [
-                'only' => ['store', 'update', 'destroy']
-            ]);
-
-        Route::resource('patients', 'Patients\CrudController',
-            [
-                'only' => ['store', 'update', 'destroy']
-            ]);
-
         Route::resource('retrieved', 'FormsValues\CrudController',
             [
                 'only' => ['store', 'update', 'destroy']
@@ -103,7 +108,7 @@ Route::group(['prefix' => '1.0'], function () {
 
         Route::resource('forms', 'Forms\CrudController',
             [
-                'only' => ['index', 'show', 'edit']
+                'only' => ['edit']
             ])->middleware('manager.forms');
 
         Route::resource('users', 'Users\CrudController',

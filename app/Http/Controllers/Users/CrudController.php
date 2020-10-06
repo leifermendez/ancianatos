@@ -146,10 +146,12 @@ class CrudController extends Controller
             if ($request->input('images')) {
                 $values['images'] = parse_images($request->input('images'));
             }
+            $level = (Auth::user()->level !== 'admin') ? 'user' : $request->level;
+
             $user = new User([
                 'name' => $request->name,
                 'email' => $request->email,
-                'level' => $request->level,
+                'level' => $level,
                 'zone' => $request->zone,
                 'user_id' => Auth::guard()->id(),
                 'password' => bcrypt(Str::random(8)),
@@ -161,6 +163,7 @@ class CrudController extends Controller
                 ['id' => $user->id]
             );
             $user->link = $link;
+            $user->link = str_replace('api/1.0', '', $user->link);
 
             $user->notify(new NewUser($user));
 
@@ -257,7 +260,7 @@ class CrudController extends Controller
                 return json_response(trans('general.not.found'), 404);
             }
             $institution = User::find($id);
-            $institution->update(['email' => 'delete_'.Str::random(4).$institution->email]);
+            $institution->update(['email' => 'delete_' . Str::random(4) . $institution->email]);
             $institution->delete();
             return response()->json([
                 'data' => $institution,
