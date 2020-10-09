@@ -20,6 +20,8 @@ class CreateStaffTable extends Migration
             $table->string('phone');
             $table->string('photo')->nullable();
             $table->string('address');
+            $table->string('gender')->nullable();
+            $table->longText('addressMore')->nullable();
             $table->longText('description')->nullable();
             $table->longText('images')->nullable();
             $table->string('email');

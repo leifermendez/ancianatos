@@ -20,6 +20,7 @@ class CreateInstitutionsTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('phone');
+            $table->date('date')->nullable();
             $table->string('zone')->nullable();
             $table->enum('type', ['public', 'private'])->default('public');
             $table->longText('description')->nullable();

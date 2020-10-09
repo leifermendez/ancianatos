@@ -135,6 +135,7 @@ class CrudController extends Controller
                 'phone' => '',
                 'description' => '',
                 'type' => '',
+                'date' => '',
                 'extra' => '',
             ], [
                 'name.required' => 'Please enter name',

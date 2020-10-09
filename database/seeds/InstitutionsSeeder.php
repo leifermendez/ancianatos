@@ -21,6 +21,7 @@ class InstitutionsSeeder extends Seeder
                 'address' => $this->faker->address,
                 'description' => $this->faker->address,
                 'phone' => $this->faker->phoneNumber,
+                'date' => $this->faker->date(),
                 'user_id' => $this->faker->randomNumber(1)
             ],
             [
@@ -28,6 +29,7 @@ class InstitutionsSeeder extends Seeder
                 'address' => $this->faker->address,
                 'description' => $this->faker->address,
                 'phone' => $this->faker->phoneNumber,
+                'date' => $this->faker->date(),
                 'user_id' => $this->faker->randomNumber(1)
             ],
             [
@@ -35,6 +37,7 @@ class InstitutionsSeeder extends Seeder
                 'address' => $this->faker->address,
                 'description' => $this->faker->address,
                 'phone' => $this->faker->phoneNumber,
+                'date' => $this->faker->date(),
                 'user_id' => $this->faker->randomNumber(1)
             ]
         );

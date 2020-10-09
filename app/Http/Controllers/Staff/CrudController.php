@@ -133,6 +133,8 @@ class CrudController extends Controller
                 'institutions_id' => 'required',
                 'email' => 'required|string|email',
                 'age' => 'required',
+                'gender' => '',
+                'addressMore' => '',
                 'description' => ''
             ], [
                 'name.required' => 'Please enter name',
