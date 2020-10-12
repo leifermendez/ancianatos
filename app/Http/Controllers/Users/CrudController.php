@@ -121,7 +121,8 @@ class CrudController extends Controller
                 'name' => 'required|string',
                 'level' => 'required|string|in:user,manager,admin',
                 'email' => 'required|string|email|unique:users',
-                'zone' => 'required|string'
+                'zone' => 'required|string',
+                'institutions_id' => ''
             ], [
                 'name.required' => 'Please enter name',
                 'level.required' => 'Please enter level',
@@ -154,6 +155,7 @@ class CrudController extends Controller
                 'level' => $level,
                 'zone' => $request->zone,
                 'user_id' => Auth::guard()->id(),
+                'institutions_id'=>$request->institutions_id,
                 'password' => bcrypt(Str::random(8)),
             ]);
             $user->save();
